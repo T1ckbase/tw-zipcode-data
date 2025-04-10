@@ -1,5 +1,5 @@
 import { DOMParser, type HTMLDocument } from '@b-fuze/deno-dom';
-import { generateText, LanguageModel } from 'ai';
+import { generateText, type LanguageModel } from 'ai';
 
 export type Captcha = {
   key: string;

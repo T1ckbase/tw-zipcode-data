@@ -3,14 +3,8 @@
   "version": "0.1.0",
   "license": "MIT",
   "exports": {
-    ".": "./zipcode-data-downloader.ts",
+    ".": "./src/zipcode-data-downloader.ts",
     "./zipcode-data.csv.json": "./data/zipcode-data.csv.json"
-  },
-  "publish": {
-    "exclude": [
-      ".vscode/",
-      ".zed/"
-    ]
   },
   "tasks": {
     "download": "deno --allow-net --allow-read --allow-write=./ --allow-env --env-file=.env ./src/download.ts"
