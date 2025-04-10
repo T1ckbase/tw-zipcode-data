@@ -59,14 +59,16 @@ class CaptchaSolver {
 
 export class ZipcodeDataDownloader {
   private dom: HTMLDocument | undefined;
-  private captchaSolver: CaptchaSolver;
+  private captchaSolver: CaptchaSolver | undefined;
   private maxRetries = 3;
 
   constructor(
-    private model: LanguageModel,
+    model?: LanguageModel,
     private postGovUrl: string = 'https://www.post.gov.tw/post/internet/Postal/index.jsp?ID=208',
   ) {
-    this.captchaSolver = new CaptchaSolver(model);
+    if (model) {
+      this.captchaSolver = new CaptchaSolver(model);
+    }
   }
 
   async download(): Promise<ZipCodeObject[]> {
@@ -144,6 +146,8 @@ export class ZipcodeDataDownloader {
   }
 
   async getCaptcha(refresh = false): Promise<Captcha> {
+    if (!this.captchaSolver) throw new Error('CaptchaSolver is not initialized');
+
     const captchaUrl = await this.getCaptchaUrl(refresh);
     const url = new URL(captchaUrl);
     const key = url.searchParams.get('vKey');
