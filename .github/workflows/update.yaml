@@ -1,4 +1,4 @@
-name: Check Update
+name: Update
 
 on:
   workflow_dispatch:

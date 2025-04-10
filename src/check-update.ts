@@ -27,5 +27,5 @@ async function main() {
   if (!res2.ok) throw new Error(`Failed to dispatch workflow: ${res2.status} ${res2.statusText}`);
 }
 
-// Deno.cron('check update', '0 0 * * *', main);
-await main();
+Deno.cron('check update', '0 0 * * *', main);
+// await main();

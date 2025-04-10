@@ -1,6 +1,6 @@
 {
   "name": "@t1ckbase/tw-zipcode-data",
-  "version": "0.3.0",
+  "version": "0.1.1",
   "license": "MIT",
   "exports": {
     ".": "./src/zipcode-data-downloader.ts",

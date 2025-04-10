@@ -1,6 +1,12 @@
 name: Publish
 
 on:
+  workflow_run:
+    workflows: ["Update"]
+    types:
+      - completed
+    branches:
+      - main
   push:
     branches:
       - main
