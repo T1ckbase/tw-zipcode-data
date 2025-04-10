@@ -1,13 +1,14 @@
 {
   "name": "@t1ckbase/tw-zipcode-data",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "exports": {
     ".": "./src/zipcode-data-downloader.ts",
     "./zipcode-data.csv.json": "./data/zipcode-data.csv.json"
   },
   "tasks": {
-    "download": "deno --allow-net --allow-read --allow-write=./ --allow-env --env-file=.env ./src/download.ts"
+    "download": "deno --allow-net --allow-read --allow-write=./ --allow-env --env-file=.env ./src/download.ts",
+    "build_npm": "deno -A build_npm.ts"
   },
   "fmt": {
     "indentWidth": 2,
@@ -20,6 +21,7 @@
   "imports": {
     "@ai-sdk/openai-compatible": "npm:@ai-sdk/openai-compatible@^0.2.8",
     "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@^0.1.49",
+    "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
     "@std/csv": "jsr:@std/csv@^1",
     "@std/fs": "jsr:@std/fs@^1",
     "ai": "npm:ai@^4.3.4"

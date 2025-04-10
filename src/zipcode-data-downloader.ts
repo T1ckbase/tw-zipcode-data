@@ -122,7 +122,7 @@ export class ZipcodeDataDownloader {
     const div = this.dom?.querySelector('div#ShareNav');
     const lastUpdatedDate = div?.textContent?.match(/最後更新日期：(\d+\/\d+\/\d+)/)?.[1];
     if (!lastUpdatedDate) throw new Error('Failed to find lastUpdated');
-    return lastUpdatedDate;
+    return lastUpdatedDate.trim();
   }
 
   async getCountys(): Promise<string[]> {
