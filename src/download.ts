@@ -3,7 +3,7 @@ import { stringify } from '@std/csv';
 import { columns, ZipcodeDataDownloader } from './zipcode-data-downloader.ts';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 
-if (!Deno.env.get('HUGGINGFACE_API_KEY')) throw new Error('Missing HUGGINGFACE_API_KEY');
+if (!Deno.env.has('HUGGINGFACE_API_KEY')) throw new Error('Missing HUGGINGFACE_API_KEY');
 
 export async function download() {
   const huggingface = createOpenAICompatible({
