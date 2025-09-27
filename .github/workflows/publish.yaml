@@ -1,17 +1,9 @@
 name: Publish
 
 on:
-  workflow_run:
-    workflows: ["Update"]
-    types:
-      - completed
-    branches:
-      - main
-  push:
-    branches:
-      - main
-
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * 4' 
 
 jobs:
   publish:
@@ -23,29 +15,33 @@ jobs:
       id-token: write # The OIDC ID token is used for authentication with JSR.
 
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
+      - uses: oven-sh/setup-bun@v2
         with:
-          deno-version: canary
+          bun-version: latest
 
-      - name: Publish to JSR
-        run: deno publish
-
-      - name: Build npm package
-        run: deno task build_npm
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
+          node-version: 'lts/*'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Publish Package to npmjs
-        run: |
-          cd ./npm
-          npm publish --provenance --access public
-        env:
+      - env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          bun src/main.ts
+
+          if git diff-index --quiet HEAD; then
+            npm publish --provenance --access public
+
+            git add package.json
+
+            git push
+            git push --tags
+          else
+            echo "No changes detected. Skipping npm publish and git push."
+          fi
 
