@@ -12,7 +12,7 @@ jobs:
 
     permissions:
       models: read
-      contents: read
+      contents: write
       id-token: write # The OIDC ID token is used for authentication with JSR.
 
     steps:
@@ -36,15 +36,14 @@ jobs:
 
           bun src/main.ts
 
-          git add package.json
-
           if [[ -n $(git status --porcelain) ]]; then
+            git add package.json
+            git commit -m 'update package.json'
+
+            npm version patch -m 'update data'
             npm publish --provenance --access public
 
-            git commit --amend --no-edit
-
-            git push --force-with-lease
-            git push --tags
+            git push --follow-tags --force-with-lease
           else
             echo "No changes detected. Skipping npm publish and git push."
           fi

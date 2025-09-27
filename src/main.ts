@@ -25,7 +25,7 @@ console.log(addresses.length);
 await Bun.write('dist/data.json', JSON.stringify(addresses));
 await Bun.write('dist/types.d.ts', Bun.file('src/types.d.ts'));
 
-await Bun.$`npm version patch -m ${'Update data'}`;
+// await Bun.$`npm version patch -m ${'Update data'}`;
 
 packageJson.metadata.updateDate = data.updateDate;
 await Bun.write('package.json', JSON.stringify(packageJson, null, 2));
