@@ -28,6 +28,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
@@ -35,10 +36,12 @@ jobs:
 
           bun src/main.ts
 
-          if git diff-index --quiet HEAD; then
+          git add package.json
+
+          if [[ -n $(git status --porcelain) ]]; then
             npm publish --provenance --access public
 
-            git add package.json
+            git commit --amend --no-edit
 
             git push
             git push --tags
