@@ -43,7 +43,7 @@ jobs:
 
             git commit --amend --no-edit
 
-            git push
+            git push --force-with-lease
             git push --tags
           else
             echo "No changes detected. Skipping npm publish and git push."
