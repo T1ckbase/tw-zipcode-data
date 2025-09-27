@@ -12,6 +12,7 @@ const vKey = data.captchaUrl.searchParams.get('vKey');
 if (!vKey) throw new Error('vKey not found');
 
 const code = await ocr(data.captchaUrl.href);
+if (!code) throw new Error('Unable to recognize text');
 
 // const vKey = '116a0aa2-c8e3-4bfb-9642-b64a29c1643e';
 // const code = '9731';

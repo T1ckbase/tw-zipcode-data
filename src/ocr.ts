@@ -1,4 +1,4 @@
-export async function ocr(imageUrl: string, retries = 3) {
+export async function ocr(imageUrl: string, retries = 3): Promise<string | null> {
   const url = 'https://models.github.ai/inference/chat/completions';
   const body = {
     model: 'openai/gpt-4.1-mini',
@@ -36,7 +36,7 @@ export async function ocr(imageUrl: string, retries = 3) {
         let message = '';
         try {
           message = ((await response.json()) as any)[0].error.message;
-        } catch { }
+        } catch {}
         throw new Error(`HTTP ${response.status}: ${response.statusText}. ${message}`);
       }
 

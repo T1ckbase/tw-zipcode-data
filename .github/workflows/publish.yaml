@@ -11,6 +11,7 @@ jobs:
     timeout-minutes: 10
 
     permissions:
+      models: read
       contents: read
       id-token: write # The OIDC ID token is used for authentication with JSR.
 
