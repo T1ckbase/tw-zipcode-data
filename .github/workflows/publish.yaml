@@ -3,7 +3,7 @@ name: Publish
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * 4' 
+    - cron: '0 8 1 * *' 
 
 jobs:
   publish:
@@ -13,38 +13,41 @@ jobs:
     permissions:
       models: read
       contents: write
-      id-token: write # The OIDC ID token is used for authentication with JSR.
+      id-token: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
+      - name: Setup nushell
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nushell
 
-      - uses: actions/setup-node@v5
+      - run: |
+          nu -c "plugin add nu_plugin_query"
+
+      - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
           registry-url: 'https://registry.npmjs.org'
 
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          # git config --local user.email "action@github.com"
+          # git config --local user.name "GitHub Action"
 
-          bun src/main.ts
+          nu script.nu
 
-          if [[ -n $(git status --porcelain) ]]; then
-            git add package.json
-            git commit -m 'update package.json'
-
-            npm version patch -m 'update data'
-            npm publish --provenance --access public
-
-            git push --follow-tags --force-with-lease
-          else
-            echo "No changes detected. Skipping npm publish and git push."
-          fi
+          # if [[ -n $(git status --porcelain) ]]; then
+          #   git add package.json
+          #   git commit -m 'update package.json'
+          #
+          #   npm version patch -m 'update data'
+          #   npm publish --provenance --access public
+          #
+          #   git push --follow-tags --force-with-lease
+          # else
+          #   echo "No changes detected. Skipping npm publish and git push."
+          # fi
 
