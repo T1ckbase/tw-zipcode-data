@@ -58,6 +58,7 @@ jobs:
           CURRENT_VERSION=$(npm version patch --no-git-tag-version)
 
           git add package.json
+          git commit -m "chore: update updateDate & bump to ${CURRENT_VERSION}"
           git tag -a "${CURRENT_VERSION}" -m "chore: update updateDate & bump to ${CURRENT_VERSION}"
 
           git push origin HEAD:"${REF_NAME}" --follow-tags
