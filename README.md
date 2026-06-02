@@ -1,3 +1,7 @@
+# tw-zipcode-data
+
+[![Update snippets](https://github.com/T1ckbase/tw-zipcode-data/actions/workflows/release.yaml/badge.svg)](https://github.com/T1ckbase/tw-zipcode-data/actions/workflows/release.yaml)
+
 資料來源:
 
 [中華郵政](https://www.post.gov.tw/post/internet/Postal/index.jsp?ID=208)的3+3郵遞區號資料
