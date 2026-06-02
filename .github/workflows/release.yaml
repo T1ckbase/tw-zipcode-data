@@ -55,8 +55,6 @@ jobs:
           git config --local user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git config --local user.name 'github-actions[bot]'
 
-          git pull --rebase origin "${REF_NAME}"
-
           CURRENT_VERSION=$(npm version patch --no-git-tag-version)
 
           git add package.json
