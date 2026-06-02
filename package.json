@@ -1,31 +1,52 @@
 {
+  "$schema": "https://www.schemastore.org/package.json",
   "name": "@t1ckbase/tw-zipcode-data",
-  "version": "0.3.5",
+  "version": "1.0.0-beta.0",
   "description": "中華郵政郵遞區號資料",
-  "author": "t1ckbase",
+  "keywords": [
+    "postal code",
+    "postcode",
+    "taiwan",
+    "zip code",
+    "地址",
+    "郵遞區號"
+  ],
+  "homepage": "https://github.com/T1ckbase/tw-zipcode-data#readme",
+  "bugs": {
+    "url": "https://github.com/T1ckbase/tw-zipcode-data/issues"
+  },
   "license": "MIT",
+  "author": {
+    "name": "T1ckbase",
+    "email": "146760065+T1ckbase@users.noreply.github.com",
+    "url": "https://github.com/T1ckbase"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/T1ckbase/tw-zipcode-data.git"
   },
-  "bugs": {
-    "url": "https://github.com/T1ckbase/tw-zipcode-data/issues"
-  },
-  "main": "dist/data.json",
-  "types": "dist/types.d.ts",
   "files": [
     "dist"
   ],
-  "keywords": [
-    "zipcode",
-    "taiwan"
-  ],
   "type": "module",
-  "devDependencies": {
-    "@biomejs/biome": "^2.2.4",
-    "@types/bun": "latest"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/data.json"
+    },
+    "./data.json": "./dist/data.json",
+    "./package.json": "./package.json"
   },
-  "metadata": {
-    "updateDate": "114年11月4日"
-  }
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "format": "oxfmt",
+    "download": "bun scripts/download.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.14",
+    "oxfmt": "^0.52.0"
+  },
+  "updateDate": "0000-00-00"
 }

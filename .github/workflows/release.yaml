@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 1 * *'
+
+jobs:
+  release:
+    permissions:
+      contents: write
+      id-token: write
+
+    if: github.repository == 'T1ckbase/tw-zipcode-data'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 'lts/*'
+          check-latest: true
+          package-manager-cache: false
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Download
+        run: bun run download --update
+
+      - name: Publish
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet HEAD -- package.json; then
+            echo 'No changes detected in package.json. Skipping publish.'
+            exit 0
+          fi
+
+          git config --local user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config --local user.name 'github-actions[bot]'
+
+          git pull --rebase origin "${REF_NAME}"
+
+          CURRENT_VERSION=$(npm version patch --no-git-tag-version)
+
+          git add package.json
+          git tag -a "${CURRENT_VERSION}" -m "chore: update updateDate & bump to ${CURRENT_VERSION}"
+
+          git push origin HEAD:"${REF_NAME}" --follow-tags
+
+          npm publish --provenance
+
+    timeout-minutes: 5
