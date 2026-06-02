@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/package.json",
   "name": "@t1ckbase/tw-zipcode-data",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0",
   "description": "中華郵政郵遞區號資料",
   "keywords": [
     "postal code",
