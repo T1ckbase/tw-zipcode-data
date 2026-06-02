@@ -34,5 +34,5 @@ if (Bun.argv.includes('--update')) {
 
   await Bun.write(packageJsonPath, code);
 
-  console.info('Updated package.json');
+  console.log('Updated package.json');
 }
